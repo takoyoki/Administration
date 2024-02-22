@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory()->create([
             'name' => 'Worker User',
             'email' => 'worker@example.com',
-            'password' => '1234',
+            'password' => '1234yyyOOO',
             'role' => 1,
             'email_verified_at' => now(),
             'remember_token' => Str::random(10),

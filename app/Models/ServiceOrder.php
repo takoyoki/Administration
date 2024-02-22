@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Enums\ServiceOrderStatus;
+use App\Enums\ServiceOrders;
 
 class ServiceOrder extends Model
 {
     use HasFactory;
     
     protected $casts = [
-        'status' => ServiceOrderStatus::class,
+        'status' => \App\Enums\ServiceOrderStatus::class,
     ];
 }
