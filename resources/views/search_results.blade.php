@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container">
+        @include('components.serchform')
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -13,12 +14,17 @@
                         @else
                             <ul>
                                 @foreach ($results as $result)
-                                    <li>{{ $result->name }}</li>
+                                    <li>{{ $result->repair_number }}</li>
+                                   
+                                    <li>{{ $result->customer_name }}</li>
                                 @endforeach
                             </ul>
                         @endif
                     </div>
                 </div>
+                {{$results->withQueryString()->links()}}
+                
+                
                 <a href="{{ url()->previous() }}" class="btn btn-primary mt-3">Back</a>
             </div>
         </div>

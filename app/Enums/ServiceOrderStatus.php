@@ -4,7 +4,7 @@ namespace App\Enums;
 
 use BenSampo\Enum\Enum;
 
-final class ServiceOrders extends Enum
+final class ServiceOrderStatus extends Enum
 {
     const RepairCompleted = '修理完了';
     const EstimatePending = '見積待ち';
