@@ -2,26 +2,34 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use DateTime;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Faker\Factory as Faker;
 
 class AdminSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        DB::table('admins')->insert([
-            'name' => '大阪 太郎',
-            'created_at' => new DateTime(),
-            'updated_at' => new DateTime(),
+        $faker = Faker::create();
+
+        $email = $faker->unique()->safeEmail;
+
+        // 既存のメールアドレスをチェックし、重複する場合は新しいメールアドレスを生成する
+        while (DB::table('users')->where('email', $email)->exists()) {
+            $email = $faker->unique()->safeEmail;
+        }
+
+        DB::table('users')->insert([
+            'name' => 'Admin User',
+            'email' => $email,
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'),
+            'remember_token' => Str::random(10),
+            'role' => 0,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
-        
     }
-        
 }

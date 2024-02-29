@@ -2,25 +2,24 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use DateTime;
+use Faker\Factory as Faker;
 
 class WorkerSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-         DB::table('workers')->insert([
-             'name' => '大谷 翔',
-             'created_at' => new DateTime(),
-             'updated_at' => new DateTime(),
-        //
-        ]);
+        $faker = Faker::create();
+
+        // 10人の作業者を生成する
+        for ($i = 0; $i < 10; $i++) {
+            DB::table('workers')->insert([
+                'name' => $faker->unique()->name,
+                'email' => $faker->safeEmail,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 }

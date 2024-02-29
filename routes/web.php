@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\WorkerController;
 use App\Http\Middleware\RedirectBasedOnRole;
+use App\Http\Controllers\ResultController;
 
 
 /*
@@ -35,7 +36,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/worker/dashboard', [WorkerController::class, 'index'])->name('worker.dashboard');
     Route::get('/admin/search', [AdminController::class, 'search'])->name('admin.search');
-    Route::get('/worker/search', [WorkerController::class, 'search'])->name('worker.search');
+    // Route::get('/worker/search', [WorkerController::class, 'search'])->name('worker.search');
+    Route::get('/result/{id}', [ResultController::class, 'show'])->name('result.show');
+    Route::post('/admin/assign/{id}', [AdminController::class, 'assignToWorker'])->name('admin.assign');
 
 });
 

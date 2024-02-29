@@ -14,6 +14,8 @@ use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
+use App\Models\Worker;
+use App\Models\Admin;
 
 class RegisteredUserController extends Controller
 {
@@ -50,6 +52,20 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'role' => $request->role,
         ]);
+        
+         if ($request->role == 0) {
+            Admin::create([
+            'name' => $request->name,
+        
+          ]);
+        } else {
+            Worker::create([
+            'name' => $request->name,
+            'email' => $request->email,
+          ]);
+            
+        };
+        
 
         event(new Registered($user));
 

@@ -25,6 +25,7 @@ return new class extends Migration
             $table->decimal('amount', 10, 2)->default(0.00)->comment('金額（円）'); // 金額
             $table->timestamps(); // 作成日時、更新日時
             $table->softDeletes(); // ソフトデリート
+            $table->foreignId('worker_id')->nullable()->constrained('workers');
         });
     }
 
