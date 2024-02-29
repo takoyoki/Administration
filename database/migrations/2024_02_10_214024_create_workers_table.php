@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('workers', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50);
             $table->timestamps();
-            $table->softDeletes();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
         });
     }
 
