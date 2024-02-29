@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Log;
 
 class RegisteredUserController extends Controller
 {
@@ -30,11 +32,17 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // ログに $request->role の値を出力
+        \Log::info('Role value from form: ' . $request->role);
+        
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role' => ['required', 'in:0,1'], // 管理者(0)か作業員(1)のどちらか
         ]);
+        
+        
 
         $user = User::create([
             'name' => $request->name,
@@ -47,6 +55,13 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        // ユーザーのロールに応じて適切なダッシュボードにリダイレクト
+        if ($request->role == 0) {
+            // 管理者用のダッシュボードにリダイレクト
+            return Redirect::route('admin.dashboard');
+        } else {
+            // 作業員用のダッシュボードにリダイレクト
+            return redirect()->action([\App\Http\Controllers\WorkerController::class, 'index']);
+        }
     }
 }
