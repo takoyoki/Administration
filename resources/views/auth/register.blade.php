@@ -16,9 +16,15 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
         
-         <div class="mt-4">
-           <input />
+        <div class="mt-4">
+            <input type="radio" id="admin" name="role" value="0">
+            <label for="admin">管理者</label>
         </div>
+
+        <div class="mt-2">
+            <input type="radio" id="worker" name="role" value="1" checked>
+            <label for="worker">作業員</label>
+       </div>
 
         <!-- Password -->
         <div class="mt-4">
