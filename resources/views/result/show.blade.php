@@ -21,7 +21,18 @@
                                 <p><strong>Amount:</strong> {{ $result->amount }}</p>
                                 <p><strong>Created At:</strong> {{ $result->created_at }}</p>
                                 <p><strong>Updated At:</strong> {{ $result->updated_at }}</p>
-                                
+                                 <!-- 割り当てられた作業員の名前を表示 -->
+                                 @if(isset($result->worker_id))
+                                 @php
+                                 $assignedWorker = App\Models\Worker::find($result->worker_id);
+                                 @endphp
+                                 @if($assignedWorker)
+                                    <p><strong>Assigned Worker:</strong> {{ $assignedWorker->name }}</p>
+                                 @else
+                                    <p><strong>Assigned Worker:</strong> Unknown</p>
+                                 @endif
+                                 @endif
+    
                                 
                                 <!-- 割り当てフォーム -->
                                 <form action="{{ route('admin.assign', ['id' => $result->id]) }}" method="POST">
@@ -36,8 +47,9 @@
                             </div>
                         
                     </div>
-                    <a href="{{ url()->previous() }}" class="btn btn-primary mt-3">Back</a> <!-- 戻るボタン -->
+                    <a href="{{ route('admin.search') }}" class="btn btn-primary mt-3">戻る</a>
                 </div>
+                
             </div>
         </div>
     </div>
