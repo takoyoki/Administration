@@ -56,6 +56,7 @@ class RegisteredUserController extends Controller
          if ($request->role == 0) {
             Admin::create([
             'name' => $request->name,
+            'email' => $request->email,
         
           ]);
         } else {
