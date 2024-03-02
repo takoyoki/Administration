@@ -33,19 +33,22 @@
                                  @endif
                                  @endif
     
-                                
+                               
+                               
                                 <!-- 割り当てフォーム -->
+                                @if(Auth::user()->role == 0) <!-- 管理者のみに表示 -->
                                 <form action="{{ route('admin.assign', ['id' => $result->id]) }}" method="POST">
                                     @csrf
                                     <select name="worker_id">
                                         @foreach($workers as $worker)
                                         <option value="{{ $worker->id }}">{{ $worker->name }}</option>
                                         @endforeach
-                                        </select>
-                                        <button type="submit" class="btn btn-success">Assign to Worker</button
-                                        </form>
+                                    </select>
+                                    <button type="submit" class="btn btn-success">Assign to Worker</button>
+                                </form>
+                                @endif
+                               
                             </div>
-                        
                     </div>
                     <a href="{{ route('admin.search') }}" class="btn btn-primary mt-3">戻る</a>
                 </div>
