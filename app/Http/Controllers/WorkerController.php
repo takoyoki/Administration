@@ -8,10 +8,12 @@ use App\Models\ServiceOrder;
 class WorkerController extends Controller
 {
     public function index()
-    {
-        return view('worker.dashboard');
-    }
+{
+    $repairTickets = ServiceOrder::where('worker_id', auth()->user()->id)->get();
+    
 
+    return view('worker.dashboard', compact('repairTickets'));
+}
 //     public function search(Request $request)
 //     {
 //         $query = $request->input('query');

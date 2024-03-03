@@ -10,7 +10,7 @@
                     <div class="card-body">
                         
                             <div class="result-item">
-                                <p><strong>Result ID:</strong> {{ $result->id }}</p>
+                               
                                 <p><strong>Repair Number:</strong> {{ $result->repair_number }}</p>
                                 <p><strong>Scheduled Date:</strong> {{ $result->scheduled_date }}</p>
                                 <p><strong>Status:</strong> {{ $result->status }}</p>

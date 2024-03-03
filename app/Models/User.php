@@ -10,7 +10,14 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    
+
+// ユーザーと従業員のリレーションを定義する
+    public function worker()
+    {
+        return $this->belongsTo(Worker::class);
+    }
+    
 
     /**
      * The attributes that are mass assignable.
