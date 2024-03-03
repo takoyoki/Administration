@@ -10,9 +10,16 @@ class Worker extends Model
 {
     
     
-    use HasFactory;
+
+    // 従業員とユーザーのリレーションを定義する
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
+    
     
     protected $fillable = [
+        'id',
         'name',
         'email',
         

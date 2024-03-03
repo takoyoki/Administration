@@ -9,6 +9,29 @@
 
                       @include('components.serchform')
                     </div>
+                    
+                    <div class="card-body">
+    @if ($repairTickets->isEmpty())
+        <p>No results found.</p>
+    @else
+        <div class="row">
+            @foreach ($repairTickets as $repairTicket)
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <a href="{{ route('result.show', $repairTicket->id) }}">
+                                <p>Repair Number: {{ $repairTicket->repair_number }}</p>
+                                <p>Customer Name: {{ $repairTicket->customer_name }}</p>
+                                <p>Address: {{$repairTicket->address }}</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @endif
+</div>
+
                 </div>
             </div>
         </div>
