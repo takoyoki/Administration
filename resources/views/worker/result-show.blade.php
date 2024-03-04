@@ -33,18 +33,14 @@
                                  @endif
                                  @endif
                                  
-                                 <!-- Edit Button -->
-                                 @if(Auth::user()->role == 0) <!-- 管理者のみに表示 -->
+                                  <!-- Edit Button -->
+                                 
                                  <button class="btn btn-primary edit-btn">Edit</button>
-                                 @endif
+                                 
                                  <!-- Edit Form -->
-                                 <form class="edit-form" action="{{ route('admin.update', ['id' => $result->id]) }}" method="POST" style="display: none;">
+                                 <form class="edit-form" action="{{ route('worker.update', ['id' => $result->id]) }}" method="POST" style="display: none;">
                                      @csrf
-                                     <div class="form-group">
-    <label for="repair_number">Repair Number:</label>
-    <input type="text" class="form-control" id="repair_number" name="repair_number" value="{{ $result->repair_number }}">
-</div>
-
+                                     
 <div class="form-group">
     <label for="scheduled_date">Scheduled Date:</label>
     <input type="text" class="form-control" id="scheduled_date" name="scheduled_date" value="{{ $result->scheduled_date }}">
@@ -60,20 +56,6 @@
     </select>
 </div>
 
-<div class="form-group">
-    <label for="customer_name">Customer Name:</label>
-    <input type="text" class="form-control" id="customer_name" name="customer_name" value="{{ $result->customer_name }}">
-</div>
-
-<div class="form-group">
-    <label for="phone_number">Phone Number:</label>
-    <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ $result->phone_number }}">
-</div>
-
- <div class="form-group">
-            <label for="address">Address:</label>
-            <textarea class="form-control" id="address" name="address" rows="4">{{ $result->address }}</textarea>
-        </div>
 
         <div class="form-group">
             <label for="memo">Memo:</label>
@@ -103,8 +85,6 @@
                                          });
                                          </script>
                                  
-                                 
-                              
     
                                
                                
@@ -123,11 +103,10 @@
                                
                             </div>
                     </div>
-                    <a href="{{ route('admin.search') }}" class="btn btn-primary mt-3">戻る</a>
+                    <a href="{{ route('worker.dashboard') }}" class="btn btn-primary mt-3">戻る</a>
                 </div>
                 
-            </div>
+                 </div>
         </div>
     </div>
 @endsection
-

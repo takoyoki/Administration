@@ -13,6 +13,18 @@ class ServiceOrder extends Model
 {
     use HasFactory;
     
+    protected $fillable = [
+        'repair_number',
+        'scheduled_date',
+        'status',
+        'customer_name',
+        'phone_number',
+        'address',
+        'memo',
+        'amount',
+        'worker_id',
+    ];
+    
     protected $casts = [
         'status' => \App\Enums\ServiceOrderStatus::class,
     ];
@@ -27,7 +39,7 @@ class ServiceOrder extends Model
     public static function getAssignedRepairTicketsForWorker($workerId)
     {
         return static::where('worker_id', $workerId)
-            ->orderBy('repair_date', 'ASC')
+            ->orderBy('scheduled_date', 'ASC')
             ->get();
     }
     
