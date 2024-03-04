@@ -54,16 +54,20 @@ class RegisteredUserController extends Controller
         ]);
         
          if ($request->role == 0) {
-            Admin::create([
+            $admin=Admin::create([
             'name' => $request->name,
             'email' => $request->email,
         
           ]);
         } else {
-            Worker::create([
+            $worker=Worker::create([
             'name' => $request->name,
             'email' => $request->email,
           ]);
+          
+          // 作業員情報が作成されたら、$user の worker_id に作業員の ID を設定する
+               $user->worker_id = $worker->id;
+               $user->save();
             
         };
         

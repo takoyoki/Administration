@@ -39,6 +39,9 @@ Route::middleware('auth')->group(function () {
     // Route::get('/worker/search', [WorkerController::class, 'search'])->name('worker.search');
     Route::get('/result/{id}', [ResultController::class, 'show'])->name('result.show');
     Route::post('/admin/assign/{id}', [AdminController::class, 'assignToWorker'])->name('admin.assign');
+    Route::get('/worker/result-show/{id}', [WorkerController::class, 'resultShow'])->name('worker.result-show');
+    Route::post('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
+    Route::post('/worker/update/{id}', [WorkerController::class, 'update'])->name('worker.update');
 
 });
 

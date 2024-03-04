@@ -47,4 +47,19 @@ class AdminController extends Controller
         
         return view('search_results', compact('results'));
     }
+    
+    public function update(Request $request, $id)
+    {
+        // 更新するサービス注文を取得
+        $serviceOrder = ServiceOrder::findOrFail($id);
+
+        // フォームから送信されたデータを取得
+        $data = $request->only(['repair_number', 'scheduled_date', 'status', 'customer_name', 'phone_number', 'address', 'memo', 'amount']);
+
+        // サービス注文を更新
+        $serviceOrder->update($data);
+
+        // 更新後のページにリダイレクト
+       return redirect()->route('result.show', ['id' => $id]);
+    }
 }
