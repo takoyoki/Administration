@@ -20,6 +20,7 @@
                                                 <p>Repair Number: {{ $result->repair_number }}</p>
                                                 <p>Customer Name: {{ $result->customer_name }}</p>
                                                 <p>Address: {{ $result->address }}</p>
+                                                <p>Scheduled Date: {{ $result->scheduled_date }}</p>
                                             </div>
                                         </a>
                                     </li>

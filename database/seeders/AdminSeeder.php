@@ -21,15 +21,15 @@ class AdminSeeder extends Seeder
             $email = $faker->unique()->safeEmail;
         }
 
-        DB::table('users')->insert([
-            'name' => 'Admin User',
-            'email' => $email,
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-            'remember_token' => Str::random(10),
-            'role' => 0,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // DB::table('users')->insert([
+        //     'name' => 'Admin User',
+        //     'email' => $email,
+        //     'email_verified_at' => now(),
+        //     'password' => Hash::make('password'),
+        //     'remember_token' => Str::random(10),
+        //     'role' => 0,
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
     }
 }

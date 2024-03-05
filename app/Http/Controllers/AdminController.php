@@ -26,7 +26,13 @@ class AdminController extends Controller
 
     public function index()
     {
-        return view('admin.dashboard');
+        $completedOrders = ServiceOrder::where('status', '修理完了')->get();
+        $quotationOrders = ServiceOrder::where('status', '見積待')->get();
+        $observationOrders = ServiceOrder::where('status', '様子見')->get();
+        $otherOrders = ServiceOrder::where('status', 'その他')->get();
+
+        return view('admin.dashboard', compact('completedOrders', 'quotationOrders', 'observationOrders', 'otherOrders'));
+        
     }
 
     public function search(Request $request)
@@ -47,6 +53,17 @@ class AdminController extends Controller
         
         return view('search_results', compact('results'));
     }
+    
+    public function showOrdersByStatus($status)
+    {
+    // 指定されたステータスに基づいて修理伝票を取得
+    $orders = ServiceOrder::where('status', $status)
+                                 ->orderBy('scheduled_date', 'asc')
+                                 ->paginate(5);
+
+    return view('admin.orders', compact('orders', 'status'));
+    }
+    
     
     public function update(Request $request, $id)
     {
