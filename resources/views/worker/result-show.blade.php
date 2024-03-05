@@ -41,10 +41,10 @@
                                  <form class="edit-form" action="{{ route('worker.update', ['id' => $result->id]) }}" method="POST" style="display: none;">
                                      @csrf
                                      
-<div class="form-group">
-    <label for="scheduled_date">Scheduled Date:</label>
-    <input type="text" class="form-control" id="scheduled_date" name="scheduled_date" value="{{ $result->scheduled_date }}">
-</div>
+                                     <div class="form-group">
+                                         <label for="scheduled_date">Scheduled Date:</label>
+                                         <input type="text" class="form-control" id="scheduled_date" name="scheduled_date" value="{{ $result->scheduled_date }}">
+                                     </div>
 
 <div class="form-group">
     <label for="status">Status:</label>
@@ -66,7 +66,7 @@
     <label for="amount">Amount:</label>
     <input type="text" class="form-control" id="amount" name="amount" value="{{ $result->amount }}">
 </div>
-                                     <!-- 他の項目の編集フィールドも追加 -->
+                                     
                                      <button type="submit" class="btn btn-success">Save</button>
                                      </form>
                                      
@@ -84,23 +84,12 @@
                                              
                                          });
                                          </script>
-                                 
-    
-                               
-                               
-                                <!-- 割り当てフォーム -->
-                                @if(Auth::user()->role == 0) <!-- 管理者のみに表示 -->
-                                <form action="{{ route('admin.assign', ['id' => $result->id]) }}" method="POST">
-                                    @csrf
-                                    <select name="worker_id">
-                                        @foreach($workers as $worker)
-                                        <option value="{{ $worker->id }}">{{ $worker->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <button type="submit" class="btn btn-success">Assign to Worker</button>
-                                </form>
-                                @endif
-                               
+                                         
+                                         <!-- PDF作成ボタン -->
+                            <form action="{{ route('generatePdf', ['result' => $result]) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary">PDFを作成する</button>
+                            </form>
                             </div>
                     </div>
                     <a href="{{ route('worker.dashboard') }}" class="btn btn-primary mt-3">戻る</a>
