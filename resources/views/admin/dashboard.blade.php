@@ -24,6 +24,16 @@
                         <div>
                             <h2><a href="{{ route('admin.orders', 'その他') }}">その他</a></h2>
                         </div>
+                        
+                    <form action="{{ route('show_worker_tickets') }}" method="GET">
+    <label for="worker_id">作業員を選択:</label>
+    <select name="worker_id" id="worker_id">
+        @foreach ($workers as $worker)
+            <option value="{{ $worker->id }}">{{ $worker->name }}</option>
+        @endforeach
+    </select>
+    <button type="submit">選択</button>
+</form>
               
             </div>
         </div>

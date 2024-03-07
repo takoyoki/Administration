@@ -3,8 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Result Details</title>
     <style>
+    
+    @font-face{
+    font-family: ipag;
+    font-style: normal;
+    font-weight: normal;
+    src:url('{{ storage_path('fonts/ipag.ttf')}}');
+        
+    }
+    body {
+        font-family: ipag;
+        
+    }
+        
         /* PDF向けのスタイルを追加 */
         /* 例:
         body {

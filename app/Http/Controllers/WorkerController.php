@@ -6,51 +6,53 @@ use App\Models\User;
 use App\Models\ServiceOrder;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use PDF;
 
 class WorkerController extends Controller
 {
     public function index()
-{
-   $repairTickets = ServiceOrder::getAssignedRepairTicketsForWorker(auth()->user()->worker_id);
-    
+    {
+        $repairTickets = ServiceOrder::getAssignedRepairTicketsForWorker(auth()->user()->worker_id);
+        
+        return view('worker.dashboard', compact('repairTickets'));
+    }
 
-    return view('worker.dashboard', compact('repairTickets'));
-}
+    public function showByStatus($status)
+    {
+        // 指定されたステータスに関連する修理伝票を取得
+        $tickets = ServiceOrder::where('status', $status)
+                            ->where('worker_id', auth()->user()->worker_id)
+                            ->paginate(5);
+        
+        // 対応するビューを返す
+        return view('worker.status', compact('tickets', 'status'));
+    }
 
-public function resultShow($id)
+    public function resultShow($id)
     {
         $result = ServiceOrder::findOrFail($id);
-        
-        
-
+    
         // 修理伝票の詳細を表示するビューを返す
         return view('worker.result-show', compact('result'));
     }
     
-     public function generatePdf($id)
-{
-    $result = ServiceOrder::findOrFail($id); // 修理伝票を取得
     
-    // PDF用のオプションを設定
-    $options = new Options();
-    $options->set('isHtml5ParserEnabled', true);
-    $options->set('defaultFont', 'Noto Sans Japanese'); // Noto Sans Japanese フォントを使用する
+    
+     public function generatePdf($id)
+    {
+        $result = ServiceOrder::findOrFail($id); // 修理伝票を取得
+        
+        // PDFビューのコンテンツをレンダリング
+        $pdfContent = view('pdf.result_details', compact('result'))->render();
 
-    // Dompdf オブジェクトを作成
-    $dompdf = new Dompdf($options);
+        // HTMLコンテンツをDompdfにロード
+        $pdf = PDF::loadHTML($pdfContent);
 
-    // PDFビューのコンテンツをレンダリング
-    $pdfContent = view('pdf.result_details', compact('result'))->render();
+        // PDFを出力
+        return $pdf->stream("result_details.pdf");
+    }
 
-    // HTMLコンテンツをDompdfにロード
-    $dompdf->loadHtml($pdfContent);
 
-    // PDFをレンダリング
-    $dompdf->render();
-
-    // PDFを出力
-    return $dompdf->stream("result_details.pdf");
-}
     
      public function update(Request $request, $id)
     {
@@ -64,7 +66,7 @@ public function resultShow($id)
         $serviceOrder->update($data);
 
         // 更新後のページにリダイレクト
-       return redirect()->route('worker.result-show', ['id' => $id]);
+       return redirect()->route('worker_result_show', ['id' => $id]);
     }
 
 

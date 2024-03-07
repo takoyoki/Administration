@@ -40,7 +40,8 @@ class ServiceOrder extends Model
     {
         return static::where('worker_id', $workerId)
             ->orderBy('scheduled_date', 'ASC')
-            ->get();
+            ->paginate(5);
+            
     }
     
 }

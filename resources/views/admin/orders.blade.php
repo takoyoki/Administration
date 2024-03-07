@@ -23,7 +23,8 @@
                        </ul>
                        
                        <!-- ページネーションリンクを表示 -->
-    {{ $orders->links() }}
+                      
+                        {{$orders->withQueryString()->links()}}
                    </div>
                    
                    <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">戻る</a>
