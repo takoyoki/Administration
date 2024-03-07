@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Worker;
 use App\Models\ServiceOrder;
 
 class AdminController extends Controller
@@ -23,17 +24,36 @@ class AdminController extends Controller
         // 成功メッセージを表示し、前のページにリダイレクト
         return redirect()->back()->with('success', '作業員を割り当てました！');
     }
+    
 
     public function index()
     {
+        $workers = worker::all(); // 作業員のリストを取得
+        
+        
         $completedOrders = ServiceOrder::where('status', '修理完了')->get();
         $quotationOrders = ServiceOrder::where('status', '見積待')->get();
         $observationOrders = ServiceOrder::where('status', '様子見')->get();
         $otherOrders = ServiceOrder::where('status', 'その他')->get();
 
-        return view('admin.dashboard', compact('completedOrders', 'quotationOrders', 'observationOrders', 'otherOrders'));
+        return view('admin.dashboard', compact('workers','completedOrders', 'quotationOrders', 'observationOrders', 'otherOrders'));
         
     }
+    
+    public function showWorkerTickets(Request $request)
+{
+    // 選択された作業員のIDを取得
+    $workerId = $request->input('worker_id');
+
+    // 選択された作業員に関連する修理伝票を取得
+    $worker = Worker::findOrFail($workerId);
+    
+   
+    $tickets = ServiceOrder::where('worker_id', $worker->id)->paginate(5); // 修理伝票を取得する関連メソッド名に応じて変更する必要があるかもしれません
+
+    return view('admin.worker_tickets', compact('worker', 'tickets'));
+}
+    
 
     public function search(Request $request)
     {
@@ -51,7 +71,7 @@ class AdminController extends Controller
                            ->paginate(3);
 
         
-        return view('search_results', compact('results'));
+        return view('result.search_results', compact('results'));
     }
     
     public function showOrdersByStatus($status)

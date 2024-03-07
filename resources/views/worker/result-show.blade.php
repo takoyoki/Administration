@@ -86,13 +86,19 @@
                                          </script>
                                          
                                          <!-- PDF作成ボタン -->
-                            <form action="{{ route('generatePdf', ['result' => $result]) }}" method="POST">
+                            <form target='_blank'action="{{ route('generatePdf', ['result' => $result]) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-primary">PDFを作成する</button>
                             </form>
                             </div>
                     </div>
-                    <a href="{{ route('worker.dashboard') }}" class="btn btn-primary mt-3">戻る</a>
+                 <a href="#" onclick="goBack()" class="btn btn-primary mt-3">戻る</a>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
                 </div>
                 
                  </div>

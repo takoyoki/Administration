@@ -34,17 +34,24 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('admin/orders/{status}', [AdminController::class, 'showOrdersByStatus'])->name('admin.orders');
-    Route::get('/worker/dashboard', [WorkerController::class, 'index'])->name('worker.dashboard');
     Route::get('/admin/search', [AdminController::class, 'search'])->name('admin.search');
-    // Route::get('/worker/search', [WorkerController::class, 'search'])->name('worker.search');
-    Route::get('/result/{id}', [ResultController::class, 'show'])->name('result.show');
+    Route::get('/dashboard/show-worker-tickets', [AdminController::class, 'showWorkerTickets'])->name('show_worker_tickets');
     Route::post('/admin/assign/{id}', [AdminController::class, 'assignToWorker'])->name('admin.assign');
-    Route::get('/worker/result-show/{id}', [WorkerController::class, 'resultShow'])->name('worker.result-show');
     Route::post('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
+    
+    
+    Route::get('/worker/dashboard', [WorkerController::class, 'index'])->name('worker.dashboard');
+    Route::get('/service_orders/{status}', [WorkerController::class, 'showByStatus'])->name('service_orders.status');
+    Route::get('/worker/result/{id}', [WorkerController::class, 'resultShow'])->name('worker_result_show');
     Route::post('/worker/update/{id}', [WorkerController::class, 'update'])->name('worker.update');
     Route::post('generate-pdf/{result}', [WorkerController::class, 'generatePdf'])->name('generatePdf');
+    
+    
+    Route::get('/result/{id}', [ResultController::class, 'show'])->name('result.show');
 
 });
 

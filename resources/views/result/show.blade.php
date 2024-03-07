@@ -114,7 +114,12 @@
                                     @csrf
                                     <select name="worker_id">
                                         @foreach($workers as $worker)
+                                        @if($result->worker_id==$worker->id)
+                                        <option value="{{ $worker->id }}" selected>{{ $worker->name }}</option>
+                                        @else
+                                    
                                         <option value="{{ $worker->id }}">{{ $worker->name }}</option>
+                                        @endif
                                         @endforeach
                                     </select>
                                     <button type="submit" class="btn btn-success">Assign to Worker</button>
@@ -123,7 +128,16 @@
                                
                             </div>
                     </div>
-                    <a href="{{ route('admin.search') }}" class="btn btn-primary mt-3">戻る</a>
+                
+
+                  <a href="#" onclick="goBack()" class="btn btn-primary mt-3">戻る</a>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+                   
                 </div>
                 
             </div>
