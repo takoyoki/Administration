@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container">
+         @include('components.serchform')
         <div class="row">
             <div class="col-md-12">
                 <div class="card">

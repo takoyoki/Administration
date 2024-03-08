@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Worker;
 use App\Models\ServiceOrder;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 class AdminController extends Controller
 {
@@ -29,14 +33,37 @@ class AdminController extends Controller
     public function index()
     {
         $workers = worker::all(); // 作業員のリストを取得
-        
+        $events = ServiceOrder::all();
         
         $completedOrders = ServiceOrder::where('status', '修理完了')->get();
         $quotationOrders = ServiceOrder::where('status', '見積待')->get();
         $observationOrders = ServiceOrder::where('status', '様子見')->get();
         $otherOrders = ServiceOrder::where('status', 'その他')->get();
+        
+    $startOfMonth = now()->startOfMonth()->setTimezone('JST')->format('Y-m-d H:i:s');
+$endOfMonth = now()->endOfMonth()->setTimezone('JST')->format('Y-m-d H:i:s');
 
-        return view('admin.dashboard', compact('workers','completedOrders', 'quotationOrders', 'observationOrders', 'otherOrders'));
+// クエリ実行前のログ出力
+Log::info('クエリ実行前: ' . $startOfMonth . ' から ' . $endOfMonth . ' の間のサービスオーダーを取得します');
+
+// サービスオーダーを取得するクエリ
+$eventCounts = ServiceOrder::where('scheduled_date', '>=', $startOfMonth)
+    ->where('scheduled_date', '<=', $endOfMonth)
+    ->where('status', '!=', '削除')
+    ->get()
+    ->groupBy(function($order) {
+        return \Carbon\Carbon::parse($order->scheduled_date)->format('Y-m-d');
+    })
+    ->map(function($orders) {
+        return count($orders);
+    })
+    ->toArray();
+
+// クエリ実行後のログ出力
+Log::info('クエリ実行後: 取得したサービスオーダー数 = ' . count($eventCounts));
+    
+    
+        return view('admin.dashboard', compact('workers','events', 'eventCounts','completedOrders', 'quotationOrders', 'observationOrders', 'otherOrders'));
         
     }
     

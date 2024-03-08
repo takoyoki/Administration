@@ -5,28 +5,25 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use App\Models\ServiceOrder;
+use PDF;
 
 
 class PdfController extends Controller
 {
-    public function generatePdf($result)
+     public function generatePdf($id)
     {
-        dd($result);
+        $result = ServiceOrder::findOrFail($id); // 修理伝票を取得
         
-        $options = new Options();
-        $options->set('defaultFont', 'Arial');
-
-        $dompdf = new Dompdf($options);
-
+        // PDFビューのコンテンツをレンダリング
         $pdfContent = view('pdf.result_details', compact('result'))->render();
 
-        $dompdf->loadHtml($pdfContent);
-
-        // PDFをレンダリング
-        $dompdf->render();
+        // HTMLコンテンツをDompdfにロード
+        $pdf = PDF::loadHTML($pdfContent);
 
         // PDFを出力
-        return $dompdf->stream("result_details.pdf");
+        return $pdf->stream("result_details.pdf");
     }
+
 }
 

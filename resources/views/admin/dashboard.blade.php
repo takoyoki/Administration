@@ -2,12 +2,13 @@
 
 @section('content')
     <div class="container">
+         @include('components.serchform')
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">Admin Dashboard</div>
 
-                    @include('components.serchform')
+                   
                 </div>
                 <div>
                     <h2><a href="{{ route('admin.orders', '修理完了') }}">修理完了</a></h2>
@@ -35,7 +36,13 @@
     <button type="submit">選択</button>
 </form>
               
+              
+              
             </div>
         </div>
+        @component('components.calendar', ['events' => $events, 'eventCounts' => $eventCounts])
+    @endcomponent 
+        
     </div>
 @endsection
+
