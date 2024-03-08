@@ -7,6 +7,7 @@ use App\Http\Controllers\WorkerController;
 use App\Http\Middleware\RedirectBasedOnRole;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\CalendarController;
 
 
 /*
@@ -48,7 +49,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/service_orders/{status}', [WorkerController::class, 'showByStatus'])->name('service_orders.status');
     Route::get('/worker/result/{id}', [WorkerController::class, 'resultShow'])->name('worker_result_show');
     Route::post('/worker/update/{id}', [WorkerController::class, 'update'])->name('worker.update');
-    Route::post('generate-pdf/{result}', [WorkerController::class, 'generatePdf'])->name('generatePdf');
+    
+    
+    Route::post('generate-pdf/{result}', [PdfController::class, 'generatePdf'])->name('generatePdf');
+    Route::get('calendar/service_orders', [CalendarController::class, 'index'])->name('calendar.service_orders');
     
     
     Route::get('/result/{id}', [ResultController::class, 'show'])->name('result.show');

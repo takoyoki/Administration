@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+ @include('components.serchform')
     <h1>{{ $worker->name }}の修理伝票</h1>
     @if($tickets->isEmpty())
         <p>修理伝票はありません。</p>

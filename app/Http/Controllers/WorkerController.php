@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\ServiceOrder;
-use Dompdf\Dompdf;
-use Dompdf\Options;
+
 use PDF;
 
 class WorkerController extends Controller
