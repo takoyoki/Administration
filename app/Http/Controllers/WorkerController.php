@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\ServiceOrder;
+use Carbon\Carbon;
 
 use PDF;
 
@@ -11,9 +12,32 @@ class WorkerController extends Controller
 {
     public function index()
     {
-        $repairTickets = ServiceOrder::getAssignedRepairTicketsForWorker(auth()->user()->worker_id);
         
-        return view('worker.dashboard', compact('repairTickets'));
+        $worker_id = auth()->user()->worker_id;
+        
+        $repairTickets = ServiceOrder::getAssignedRepairTicketsForWorker(auth()->user()->worker_id);
+        $events = ServiceOrder::where('worker_id', $worker_id)->get();
+        
+        $startOfMonth = now()->startOfMonth()->setTimezone('JST')->format('Y-m-d H:i:s');
+        $endOfMonth = now()->endOfMonth()->setTimezone('JST')->format('Y-m-d H:i:s');
+        
+       // サービスオーダーを取得するクエリ
+     $eventCounts = ServiceOrder::where('scheduled_date', '>=', $startOfMonth)
+    ->where('scheduled_date', '<=', $endOfMonth)
+    ->where('status', '!=', '削除')
+    ->where('worker_id', auth()->user()->worker_id) // 作業員のIDでフィルタリング
+    ->paginate(10)
+    ->groupBy(function($order) {
+        return \Carbon\Carbon::parse($order->scheduled_date)->format('Y-m-d');
+    })
+    ->map(function($orders) {
+        return count($orders);
+    })
+    ->toArray();
+        
+        
+        
+        return view('worker.dashboard', compact('repairTickets','events','eventCounts'));
     }
 
     public function showByStatus($status)

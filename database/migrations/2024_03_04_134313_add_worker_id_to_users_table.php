@@ -14,7 +14,7 @@ class AddWorkerIdToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('worker_id')->nullable()->constrained('workers')->onDelete('set null');
+            $table->foreignId('worker_id')->nullable()->constrained('workers')->onDelete('cascade');
         });
     }
 

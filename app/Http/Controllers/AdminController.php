@@ -41,10 +41,9 @@ class AdminController extends Controller
         $otherOrders = ServiceOrder::where('status', 'その他')->get();
         
     $startOfMonth = now()->startOfMonth()->setTimezone('JST')->format('Y-m-d H:i:s');
-$endOfMonth = now()->endOfMonth()->setTimezone('JST')->format('Y-m-d H:i:s');
+    $endOfMonth = now()->endOfMonth()->setTimezone('JST')->format('Y-m-d H:i:s');
 
-// クエリ実行前のログ出力
-Log::info('クエリ実行前: ' . $startOfMonth . ' から ' . $endOfMonth . ' の間のサービスオーダーを取得します');
+
 
 // サービスオーダーを取得するクエリ
 $eventCounts = ServiceOrder::where('scheduled_date', '>=', $startOfMonth)
@@ -59,8 +58,7 @@ $eventCounts = ServiceOrder::where('scheduled_date', '>=', $startOfMonth)
     })
     ->toArray();
 
-// クエリ実行後のログ出力
-Log::info('クエリ実行後: 取得したサービスオーダー数 = ' . count($eventCounts));
+
     
     
         return view('admin.dashboard', compact('workers','events', 'eventCounts','completedOrders', 'quotationOrders', 'observationOrders', 'otherOrders'));
@@ -126,4 +124,45 @@ Log::info('クエリ実行後: 取得したサービスオーダー数 = ' . cou
         // 更新後のページにリダイレクト
        return redirect()->route('result.show', ['id' => $id]);
     }
+    
+    
+    public function approved()
+    {
+  
+    // 未承認のユーザー一覧を取得
+    $unapprovedUsers = User::where('is_approved', 0)->get();
+
+    // 未承認ユーザー一覧ビューを返す
+    return view('admin.approved', ['unapprovedUsers' => $unapprovedUsers]);
+    
+    }
+    
+   // ルートモデルバインディングを利用して、$id を $user として受け取る
+public function approve(Request $request, $userId)
+{
+    $user = User::findOrFail($userId);
+    
+    // ユーザーを承認する処理
+    $user->update(['is_approved' => 1]);
+    
+    
+
+    // 承認後に未承認ユーザー一覧ページにリダイレクト
+    return redirect()->route('admin.approved')->with('success', 'ユーザーが承認されました');
+}
+
+// reject メソッドも同様に修正する
+public function reject(Request $request, $userId)
+{
+    
+    $user = User::findOrFail($userId);
+    // ユーザーを削除する処理
+    $user->delete();
+
+    // 拒否後の処理（例えばリダイレクトなど）をここに追加する
+    return redirect()->route('admin.approved')->with('success', 'ユーザーが削除されました');
+}
+    
+    
+    
 }

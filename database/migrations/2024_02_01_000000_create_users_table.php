@@ -22,6 +22,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->integer('role')->nullable();
+            $table->boolean('is_approved')->default(0);
             
         });
     }
@@ -34,5 +35,6 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('users');
+         
     }
 };
