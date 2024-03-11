@@ -14,7 +14,7 @@
     @if ($repairTickets->isEmpty())
         <p>No results found.</p>
     @else
-  @extends('layouts.app')
+
 
 
     <div class="container">
@@ -51,10 +51,13 @@
 
     @endif
 </div>
-{{$repairTickets->withQueryString()->links()}}
+ @component('components.worker-calendar', ['events' => $events, 'eventCounts' => $eventCounts])
+    @endcomponent 
 
                 </div>
             </div>
         </div>
+         
+    
     </div>
 @endsection

@@ -54,6 +54,7 @@ class User extends Authenticatable
         'password',
         'role',
         'worker_id',
+        'is_approved'
     ];
 
     protected $hidden = [

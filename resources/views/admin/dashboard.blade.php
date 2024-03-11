@@ -39,7 +39,10 @@
               
               
             </div>
+            <a href="{{ route('admin.approved') }}" class="btn btn-primary">未承認ユーザー一覧</a>
         </div>
+        
+        
         @component('components.calendar', ['events' => $events, 'eventCounts' => $eventCounts])
     @endcomponent 
         

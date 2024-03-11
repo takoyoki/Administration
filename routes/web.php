@@ -43,6 +43,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/show-worker-tickets', [AdminController::class, 'showWorkerTickets'])->name('show_worker_tickets');
     Route::post('/admin/assign/{id}', [AdminController::class, 'assignToWorker'])->name('admin.assign');
     Route::post('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
+    Route::get('/admin/approved', [AdminController::class, 'approved'])->name('admin.approved');
+    Route::put('/admin/approve/{user}', [AdminController::class, 'approve'])->name('admin.approve');
+    Route::delete('/admin/reject/{user}', [AdminController::class, 'reject'])->name('admin.reject');
     
     
     Route::get('/worker/dashboard', [WorkerController::class, 'index'])->name('worker.dashboard');

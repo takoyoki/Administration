@@ -7,29 +7,27 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Faker\Factory as Faker;
+use App\Models\User;
+use App\Models\Admin;
 
 class AdminSeeder extends Seeder
 {
     public function run()
     {
-        $faker = Faker::create();
-
-        $email = $faker->unique()->safeEmail;
-
-        // 既存のメールアドレスをチェックし、重複する場合は新しいメールアドレスを生成する
-        while (DB::table('users')->where('email', $email)->exists()) {
-            $email = $faker->unique()->safeEmail;
-        }
-
-        // DB::table('users')->insert([
-        //     'name' => 'Admin User',
-        //     'email' => $email,
-        //     'email_verified_at' => now(),
-        //     'password' => Hash::make('password'),
-        //     'remember_token' => Str::random(10),
-        //     'role' => 0,
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
+        
+        // Admins テーブルにデータを追加
+        $admin = Admin::create([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+         ]);
+         
+         
+       User::create([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password'), // 平文のパスワードをハッシュ化して設定
+            'role' => 0, // 管理者の場合は 0 を設定
+            'is_approved' => 1, // 承認済みの場合は 1 を設定
+        ]);
     }
 }
