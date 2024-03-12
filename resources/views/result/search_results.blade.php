@@ -12,15 +12,15 @@
                         @if ($results->isEmpty())
                             <p>No results found.</p>
                         @else
-                            <ul>
+                            <ul class="list-unstyled">
                                 @foreach ($results as $result)
-                                    <li>
-                                        <a href="{{ route('result.show', $result->id) }}">
-                                            <div>
-                                                <p>Repair Number: {{ $result->repair_number }}</p>
-                                                <p>Customer Name: {{ $result->customer_name }}</p>
-                                                <p>Address: {{ $result->address }}</p>
-                                                <p>Scheduled Date: {{ $result->scheduled_date }}</p>
+                                    <li class="mb-3">
+                                        <a href="{{ route('result.show', $result->id) }}" class="text-decoration-none">
+                                            <div class="border p-3">
+                                                <p class="mb-1">Repair Number: {{ $result->repair_number }}</p>
+                                                <p class="mb-1">Customer Name: {{ $result->customer_name }}</p>
+                                                <p class="mb-1">Address: {{ $result->address }}</p>
+                                                <p class="mb-0">Scheduled Date: {{ $result->scheduled_date }}</p>
                                             </div>
                                         </a>
                                     </li>
@@ -32,12 +32,12 @@
                 {{$results->withQueryString()->links()}}
                 
                 @auth
-    @if(auth()->user()->role == '0')
-        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary mt-3">Back</a>
-    @else
-        <a href="{{ route('worker.dashboard') }}" class="btn btn-primary mt-3">Back</a>
-    @endif
-@endauth
+                    @if(auth()->user()->role == '0')
+                        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary mt-3">戻る</a>
+                    @else
+                        <a href="{{ route('worker.dashboard') }}" class="btn btn-primary mt-3">戻る</a>
+                    @endif
+                @endauth
             </div>
         </div>
     </div>

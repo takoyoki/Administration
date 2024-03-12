@@ -79,6 +79,20 @@ class WorkerController extends Controller
     
      public function update(Request $request, $id)
     {
+        
+         // 今日の日付を取得
+    $today = now()->format('Y-m-d');
+
+        
+         // バリデーションルールを定義
+    $validatedData = $request->validate([
+        'scheduled_date' => 'required|date|after_or_equal:'.$today, // 今日以降の日付であることを検証
+        'status' => 'required',
+        'memo' => 'nullable|max:400',
+        'amount' => 'required|numeric',
+        
+        ]);
+        
         // 更新するサービス注文を取得
         $serviceOrder = ServiceOrder::findOrFail($id);
 
