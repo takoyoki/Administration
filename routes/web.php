@@ -46,7 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/approved', [AdminController::class, 'approved'])->name('admin.approved');
     Route::put('/admin/approve/{user}', [AdminController::class, 'approve'])->name('admin.approve');
     Route::delete('/admin/reject/{user}', [AdminController::class, 'reject'])->name('admin.reject');
-    
+    Route::get('/admin/create-srevice-order', [AdminController::class,'create'])->name('admin.create-service-order');
+    Route::post('/admin/store-srevice-order', [AdminController::class,'store'])->name('admin.store-service-order');
     
     Route::get('/worker/dashboard', [WorkerController::class, 'index'])->name('worker.dashboard');
     Route::get('/service_orders/{status}', [WorkerController::class, 'showByStatus'])->name('service_orders.status');

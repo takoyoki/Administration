@@ -112,6 +112,23 @@ $eventCounts = ServiceOrder::where('scheduled_date', '>=', $startOfMonth)
     
     public function update(Request $request, $id)
     {
+        
+        // 今日の日付を取得
+    $today = now()->format('Y-m-d');
+
+        
+         // バリデーションルールを定義
+    $validatedData = $request->validate([
+        'scheduled_date' => 'required|date|after_or_equal:'.$today, // 今日以降の日付であることを検証
+        'status' => 'required',
+        'customer_name' => 'required',
+        'phone_number' => 'required|numeric',
+        'address' => 'required',
+        'memo' => 'nullable|max:400',
+        'amount' => 'required|numeric',
+    ]);
+        
+        
         // 更新するサービス注文を取得
         $serviceOrder = ServiceOrder::findOrFail($id);
 
@@ -162,7 +179,55 @@ public function reject(Request $request, $userId)
     // 拒否後の処理（例えばリダイレクトなど）をここに追加する
     return redirect()->route('admin.approved')->with('success', 'ユーザーが削除されました');
 }
+
+public function create(Request $request)
+{
+     // 作業員の一覧を取得
+    $workers = Worker::all(); // または適切な方法で作業員を取得してください
     
+    // 最後の修理伝票の番号を取得し、1を加えて新しい番号を生成
+    $lastServiceOrder = ServiceOrder::orderBy('id', 'desc')->first();
+    $lastRepairNumber = $lastServiceOrder ? $lastServiceOrder->repair_number : 0;
+    $nextRepairNumber = $lastRepairNumber + 1;
+   
+    return view('admin.create-service-order',  compact('workers', 'nextRepairNumber'));
+}
+    
+    public function store(Request $request)
+    {
+        
+         // 今日の日付を取得
+    $today = now()->format('Y-m-d');
+        
+        // バリデーションルールを定義
+         $validatedData = $request->validate([
+    'repair_number' => 'required',
+    'scheduled_date' => 'required|date|after_or_equal:'.$today, // 今日以降の日付であることを検証
+    'status' => 'required',
+    'customer_name' => 'required',
+    'phone_number' => 'required|numeric', // ここが数字のみを許可するルールです
+    'address' => 'required',
+    'memo' => 'nullable|max:400', // メモは400文字以内
+    'amount' => 'required|numeric', // ここも数字のみを許可するルールです
+    'worker_id' => 'required',
+]);
+
+        // データベースに修理伝票を作成する
+        $serviceOrder = new ServiceOrder();
+        $serviceOrder->repair_number = $request->input('repair_number');
+        $serviceOrder->scheduled_date = $request->input('scheduled_date');
+        $serviceOrder->status = $request->input('status');
+        $serviceOrder->customer_name = $request->input('customer_name');
+        $serviceOrder->phone_number = $request->input('phone_number');
+        $serviceOrder->address = $request->input('address');
+        $serviceOrder->memo = $request->input('memo');
+        $serviceOrder->amount = $request->input('amount');
+        $serviceOrder->worker_id = $request->input('worker_id');
+        $serviceOrder->save();
+
+        // 修理伝票が作成された後の処理
+        return redirect()->route('admin.dashboard')->with('success', '修理伝票が作成されました。');
+    }
     
     
 }

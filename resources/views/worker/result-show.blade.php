@@ -45,6 +45,7 @@
                                      <div class="form-group">
                                          <label for="scheduled_date">Scheduled Date:</label>
                                          <input type="text" class="form-control" id="scheduled_date" name="scheduled_date" value="{{ $result->scheduled_date }}">
+                                          <p class="title__error" style="color:red">{{ $errors->first('scheduled_date') }}</p>
                                      </div>
 
 <div class="form-group">
@@ -61,11 +62,13 @@
         <div class="form-group">
             <label for="memo">Memo:</label>
             <textarea class="form-control" id="memo" name="memo" rows="4">{{ $result->memo }}</textarea>
+             <p class="title__error" style="color:red">{{ $errors->first('memo') }}</p>
         </div>
 
 <div class="form-group">
     <label for="amount">Amount:</label>
     <input type="text" class="form-control" id="amount" name="amount" value="{{ $result->amount }}">
+     <p class="title__error" style="color:red">{{ $errors->first('amount') }}</p>
 </div>
                                      
                                      <button type="submit" class="btn btn-success">Save</button>

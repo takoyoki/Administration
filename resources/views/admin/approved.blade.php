@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container mt-3">
         <h1>未承認ユーザー一覧</h1>
-        <table class="table">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>ユーザー名</th>
@@ -14,26 +14,27 @@
             </thead>
             <tbody>
                @foreach($unapprovedUsers as $user)
-    <tr>
-        <td>{{ $user->name }}</td>
-        <td>{{ $user->email }}</td>
-        <td>{{ $user->is_approved ? '承認済み' : '未承認' }}</td>
-        <td>
-            <form action="{{ route('admin.approve', $user->id) }}" method="POST">
-    @csrf
-    <input type="hidden" name="_method" value="PUT">
-    <button type="submit" class="btn btn-primary">承認する</button>
-</form>
+                    <tr>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->is_approved ? '承認済み' : '未承認' }}</td>
+                        <td>
+                            <form action="{{ route('admin.approve', $user->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="btn btn-success">承認する</button>
+                            </form>
 
-<form action="{{ route('admin.reject', $user->id) }}" method="POST">
-    @csrf
-    <input type="hidden" name="_method" value="DELETE">
-    <button type="submit" class="btn btn-danger">拒否する</button>
-</form>
-        </td>
-    </tr>
-@endforeach
+                            <form action="{{ route('admin.reject', $user->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">拒否する</button>
+                            </form>
+                        </td>
+                    </tr>
+               @endforeach
             </tbody>
         </table>
+        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">戻る</a>
     </div>
 @endsection
