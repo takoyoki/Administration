@@ -60,6 +60,11 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
         
           ]);
+          
+           // 管理者情報が作成されたら、$user の admin_id に管理者の ID を設定する
+                  $user->admin_id = $admin->id;
+                  $user->save();
+          
         } else {
             $worker=Worker::create([
             'name' => $request->name,
@@ -69,6 +74,7 @@ class RegisteredUserController extends Controller
           // 作業員情報が作成されたら、$user の worker_id に作業員の ID を設定する
                $user->worker_id = $worker->id;
                $user->save();
+               
             
         };
         

@@ -45,7 +45,12 @@ class User extends Authenticatable
 
     public function worker()
     {
-        return $this->belongsTo(Worker::class);
+        return $this->hasOne(Worker::class);
+    }
+    
+     public function admin()
+    {
+        return $this->hasOne(Admin::class);
     }
 
     protected $fillable = [
@@ -54,6 +59,7 @@ class User extends Authenticatable
         'password',
         'role',
         'worker_id',
+        'admin_id',
         'is_approved'
     ];
 

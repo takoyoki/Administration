@@ -2,7 +2,9 @@
 
 @section('content')
     <div class="container">
-         @include('components.serchform')
+        <div class="card-body">
+                    @include('components.serchform')
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -63,6 +65,13 @@
             <div class="row mt-3">
                 <div class="col-md-12">
                     <a href="{{ route('admin.approved') }}" class="btn btn-primary">未承認ユーザー一覧</a>
+                    
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <a href="{{ route('admin.user') }}" class="btn btn-primary">ユーザー一覧</a>
+                    
                 </div>
             </div>
         </div>
