@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Worker;
+use App\Models\Admin;
 use App\Models\ServiceOrder;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -229,5 +230,73 @@ public function create(Request $request)
         return redirect()->route('admin.dashboard')->with('success', '修理伝票が作成されました。');
     }
     
+    public function destroy($id)
+{
+    $serviceOrder = ServiceOrder::findOrFail($id);
+    $serviceOrder->delete();
+
+    return redirect()->route('admin.dashboard')->with('success', '伝票が削除されました');
+}
+
+public function list()
+{
+    $users = User::all();
+    return view('admin.list', ['users' => $users]);
+}
+
+public function remove($id)
+{
+    $user = User::findOrFail($id);
     
+     if ($user->email === 'admin@example.com') {
+        return redirect()->route('admin.user')->with('error', '管理者ユーザーは削除できません');
+    }
+
+    // 関連する workers レコードを取得して削除
+    $worker = Worker::where('id', $user->worker_id)->first();
+    if ($worker) {
+        $worker->delete();
+    }
+
+    // 関連する admins レコードを取得して削除
+    $admin = Admin::where('id', $user->admin_id)->first();
+    if ($admin) {
+        $admin->delete();
+    }
+
+    // users テーブルからユーザーを削除
+    $user->delete();
+
+    return redirect()->route('admin.user')->with('success', 'ユーザーを削除しました');
+}
+
+
+
+
+
+
+
+
+    
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.edit', ['user' => $user]);
+    }
+    
+    public function editUser(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        
+        // バリデーションのルールを指定して、入力値を検証することができます
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+        ]);
+
+        $user->update($validatedData);
+
+        return redirect()->route('users.edit', ['id' => $user->id])->with('success', 'ユーザー情報を更新しました');
+    }
+
 }

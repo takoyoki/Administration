@@ -2,7 +2,17 @@
 
 @section('content')
     <div class="container">
+        <div style="position: relative;">
         @include('components.serchform')
+         @auth
+                    @if(auth()->user()->role == '0')
+                        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary mt-3" style="position: absolute; bottom: 0; right: 0;">戻る</a>
+                    @else
+                        <a href="{{ route('worker.dashboard') }}" class="btn btn-primary mt-3" style="position: absolute; bottom: 0; right: 0;">戻る</a>
+                    @endif
+                @endauth
+        </div>            
+        
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -31,13 +41,7 @@
                 </div>
                 {{$results->withQueryString()->links()}}
                 
-                @auth
-                    @if(auth()->user()->role == '0')
-                        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary mt-3">戻る</a>
-                    @else
-                        <a href="{{ route('worker.dashboard') }}" class="btn btn-primary mt-3">戻る</a>
-                    @endif
-                @endauth
+               
             </div>
         </div>
     </div>

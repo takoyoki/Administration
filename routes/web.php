@@ -48,12 +48,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/reject/{user}', [AdminController::class, 'reject'])->name('admin.reject');
     Route::get('/admin/create-srevice-order', [AdminController::class,'create'])->name('admin.create-service-order');
     Route::post('/admin/store-srevice-order', [AdminController::class,'store'])->name('admin.store-service-order');
+    Route::delete('/service_orders/destroy/{id}', [AdminController::class, 'destroy'])->name('service_orders.destroy');
+    Route::get('/admin/user', [AdminController::class,'list'])->name('admin.user');
+    Route::get('/users/edit/{id}', [AdminController::class, 'edit'])->name('users.edit');
+    Route::delete('/users/{id}', [AdminController::class, 'remove'])->name('users.destroy');
+    Route::put('/users/{id}', [AdminController::class, 'editUser'])->name('users.editUser');
     
     Route::get('/worker/dashboard', [WorkerController::class, 'index'])->name('worker.dashboard');
     Route::get('/service_orders/{status}', [WorkerController::class, 'showByStatus'])->name('service_orders.status');
     Route::get('/worker/result/{id}', [WorkerController::class, 'resultShow'])->name('worker_result_show');
     Route::post('/worker/update/{id}', [WorkerController::class, 'update'])->name('worker.update');
-    
+    Route::get('/worker/{id}/edit', [WorkerController::class, 'edit'])->name('worker.edit');
+    Route::put('/worker/editUser/{id}', [WorkerController::class, 'editUser'])->name('worker.editUser');
     
     Route::post('generate-pdf/{result}', [PdfController::class, 'generatePdf'])->name('generatePdf');
     Route::get('calendar/service_orders', [CalendarController::class, 'index'])->name('calendar.service_orders');

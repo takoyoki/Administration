@@ -4,7 +4,10 @@
 
 @section('content')
 <div class="container">
+   <div style="position: relative;">
     @include('components.serchform')
+    <a href="#" onclick="goBack()" class="btn btn-primary mt-3" style="position: absolute; bottom: 0; right: 0;">戻る</a>
+   </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -114,12 +117,17 @@
                             <button type="submit" class="btn btn-primary mt-3">PDFを作成する</button>
                         </form>
 
-                       
+                       <!-- 伝票削除削除ボタン -->
                     </div>
+                        <form action="{{ route('service_orders.destroy', $result->id) }}" method="POST" id="delete-form-{{ $result->id }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button" class="btn btn-danger delete-btn" data-id="{{ $result->id }}">伝票削除</button>
+                        </form>
                 </div>
             </div>
         </div>
-         <a href="#" onclick="goBack()" class="btn btn-primary mt-3">戻る</a>
+         
     </div>
 </div>
 
@@ -141,4 +149,22 @@
         });
     });
 </script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const serviceOrderId = this.getAttribute('data-id');
+                if (confirm('この伝票を削除しますか？')) {
+                    document.getElementById('delete-form-' + serviceOrderId).submit();
+                }
+            });
+        });
+    });
+</script>
+
 @endsection

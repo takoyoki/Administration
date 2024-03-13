@@ -1,41 +1,43 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-         @include('components.serchform')
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">{{ $scheduled_date }} の修理伝票一覧</div>
+<div class="container">
+    <div style="position: relative;">
+        @include('components.serchform')
+        <a href="{{ route('worker.dashboard') }}" class="btn btn-primary" style="position: absolute; bottom: 0; right: 0;">戻る</a>
+    </div>
+    
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">{{ $scheduled_date }} の修理伝票一覧</div>
 
-                   <div class="card-body">
-                       @if ($serviceOrders->isEmpty())
-                           <p>修理伝票はありません</p>
-                       @else
-                           <ul>
-                               @foreach($serviceOrders as $serviceOrder)
-                               <li>
-                                   
-                                 <a href="{{ route('worker_result_show', $serviceOrder->id) }}">
-                                        
-                                   <p>Repair Number: {{ $serviceOrder->repair_number }}</p>
-                                   <p>Customer Name: {{ $serviceOrder->customer_name }}</p>
-                                   <p>Address: {{ $serviceOrder->address }}</p>
-                                   <p>Scheduled Date: {{ $serviceOrder->scheduled_date }}</p>
-                               </li>
-                               @endforeach
-                           </ul>
-                           
-                           <!-- ページネーションリンクを表示 -->
-                          
-                            {{$serviceOrders->withQueryString()->links()}}
-                       @endif
-                   </div>
-                   
-                   <a href="{{ route('worker.dashboard') }}" class="btn btn-primary">戻る</a>
-                   
+                <div class="card-body">
+                    @if ($serviceOrders->isEmpty())
+                        <p>修理伝票はありません</p>
+                    @else
+                        <ul class="list-unstyled">
+                            @foreach($serviceOrders as $serviceOrder)
+                            <li class="mb-3">
+                                <a href="{{ route('worker_result_show', $serviceOrder->id) }}" class="text-decoration-none">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <p class="card-text">Repair Number: {{ $serviceOrder->repair_number }}</p>
+                                            <p class="card-text">Customer Name: {{ $serviceOrder->customer_name }}</p>
+                                            <p class="card-text">Address: {{ $serviceOrder->address }}</p>
+                                            <p class="card-text">Scheduled Date: {{ $serviceOrder->scheduled_date }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            @endforeach
+                        </ul>
+
+                      
+                    @endif
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection

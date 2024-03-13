@@ -1,7 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+ 
     <div class="container mt-3">
+        <div style="position: relative;">
+    @include('components.serchform')
+    <a href="{{ route('admin.dashboard') }}" class="btn btn-primary"  style="position: absolute; bottom: 0; right: 0;">戻る</a>
+    </div>
         <h1>未承認ユーザー一覧</h1>
         <table class="table table-striped">
             <thead>
@@ -35,6 +40,6 @@
                @endforeach
             </tbody>
         </table>
-        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">戻る</a>
+        
     </div>
 @endsection

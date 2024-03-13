@@ -1,8 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+  
     <div class="container">
+        <div style="position: relative;">
          @include('components.serchform')
+         <a href="{{ route('admin.dashboard') }}" class="btn btn-primary" style="position: absolute; bottom: 0; right: 0;">戻る</a>
+         </div>
+      
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -74,7 +79,7 @@
                         </form>
                     </div>
                 </div>
-                 <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">戻る</a>
+                 
             </div>
         </div>
     </div>

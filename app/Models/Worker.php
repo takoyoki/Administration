@@ -14,7 +14,7 @@ class Worker extends Model
     // 従業員とユーザーのリレーションを定義する
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class, 'worker_id');
     }
     
     

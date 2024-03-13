@@ -105,6 +105,29 @@ class WorkerController extends Controller
         // 更新後のページにリダイレクト
        return redirect()->route('worker_result_show', ['id' => $id]);
     }
+    
+    public function edit($id)
+{
+    $user = User::findOrFail($id);
+    return view('worker.edit', compact('user'));
+}
+
+ public function editUser(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        
+        // バリデーションのルールを指定して、入力値を検証することができます
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+        ]);
+
+        $user->update($validatedData);
+
+        return redirect()->route('worker.edit', ['id' => $user->id])->with('success', 'ユーザー情報を更新しました');
+    }
+
+
 
 
 }

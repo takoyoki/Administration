@@ -1,63 +1,64 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">Worker Dashboard</div>
-
-                      @include('components.serchform')
+<div class="container">
+    <div class="card-body">
+                    @include('components.serchform')
+                </div>
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">Worker Dashboard</div>
+                
+                <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="card p-3">
+                <div class="card-body">
+                    <h2 class="mb-4">伝票一覧</h2>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <a href="{{ route('service_orders.status', '修理完了') }}" class="btn btn-primary btn-lg btn-block">修理完了</a>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <a href="{{ route('service_orders.status', '見積待ち') }}" class="btn btn-primary btn-lg btn-block">見積待ち</a>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <a href="{{ route('service_orders.status', '様子見') }}" class="btn btn-primary btn-lg btn-block">様子見</a>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <a href="{{ route('service_orders.status', 'その他') }}" class="btn btn-primary btn-lg btn-block">その他</a>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div class="card-body">
-    @if ($repairTickets->isEmpty())
-        <p>No results found.</p>
-    @else
-
-
-
-    <div class="container">
-        <h1>作業員のダッシュボード</h1>
-        
-        <!-- 修理完了のコンテナ -->
-        <div class="status-container">
-            <a href="{{ route('service_orders.status', '修理完了') }}">
-                <h3>修理完了</h3>
-            </a>
-        </div>
-
-        <!-- 見積待ちのコンテナ -->
-        <div class="status-container">
-            <a href="{{ route('service_orders.status', '見積待ち') }}">
-                <h3>見積待ち</h3>
-            </a>
-        </div>
-
-        <!-- 様子見のコンテナ -->
-        <div class="status-container">
-            <a href="{{ route('service_orders.status', '様子見') }}">
-                <h3>様子見</h3>
-            </a>
-        </div>
-
-        <!-- その他のコンテナ -->
-        <div class="status-container">
-            <a href="{{ route('service_orders.status', 'その他') }}">
-                <h3>その他</h3>
-            </a>
-        </div>
-    </div>
-
-    @endif
-</div>
- @component('components.worker-calendar', ['events' => $events, 'eventCounts' => $eventCounts])
-    @endcomponent 
-
                 </div>
             </div>
         </div>
-         
-    
     </div>
+       <div class="row mt-3">
+    <div class="col-md-12">
+        <a href="{{ route('worker.edit', Auth::user()->id) }}" class="btn btn-primary">ユーザー情報を編集</a>
+    </div>
+</div>
+    
+                
+            </div>
+        </div>
+    </div>
+
+    
+
+    <div class="row mt-3">
+        <div class="col-md-12">
+            @component('components.worker-calendar', ['events' => $events, 'eventCounts' => $eventCounts])
+            @endcomponent 
+        </div>
+    </div>
+</div>
 @endsection
