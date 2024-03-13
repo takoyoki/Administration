@@ -123,6 +123,15 @@ class WorkerController extends Controller
         ]);
 
         $user->update($validatedData);
+        
+        // 作業員の場合、workersテーブルも更新
+    if ($user->role == 1) {
+        $worker = Worker::findOrFail($user->worker_id);
+        $worker->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+    }
 
         return redirect()->route('worker.edit', ['id' => $user->id])->with('success', 'ユーザー情報を更新しました');
     }

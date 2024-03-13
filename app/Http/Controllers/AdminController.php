@@ -295,6 +295,24 @@ public function remove($id)
         ]);
 
         $user->update($validatedData);
+        
+        // 管理者の場合、adminsテーブルも更新
+    if ($user->role == 0) {
+        $admin = Admin::findOrFail($user->admin_id);
+        $admin->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+    }
+    // 作業員の場合、workersテーブルも更新
+    else {
+        $worker = Worker::findOrFail($user->worker_id);
+        $worker->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+    }
+
 
         return redirect()->route('users.edit', ['id' => $user->id])->with('success', 'ユーザー情報を更新しました');
     }
