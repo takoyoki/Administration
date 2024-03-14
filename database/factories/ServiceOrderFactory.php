@@ -27,6 +27,8 @@ class ServiceOrderFactory extends Factory
             'phone_number' => $faker->phoneNumber(),
             'address' => $faker->address(),
             'memo' => $faker->sentence(),
+            'service_request' => $faker->sentence(),
+            'repair_assessment_and_implementation' => $faker->sentence(),
             'created_at' => now(),
             'updated_at' => now(),
         ];

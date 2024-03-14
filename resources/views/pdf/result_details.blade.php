@@ -29,16 +29,22 @@
 </head>
 <body>
     <h1>Result Details</h1>
-    <p><strong>Repair Number:</strong> {{ $result->repair_number }}</p>
-    <p><strong>Scheduled Date:</strong> {{ $result->scheduled_date }}</p>
-    <p><strong>Status:</strong> {{ $result->status }}</p>
-    <p><strong>Customer Name:</strong> {{ $result->customer_name }}</p>
-    <p><strong>Phone Number:</strong> {{ $result->phone_number }}</p>
-    <p><strong>Address:</strong> {{ $result->address }}</p>
-    <p><strong>Memo:</strong> {{ $result->memo }}</p>
-    <p><strong>Amount:</strong> {{ $result->amount }}</p>
-    <p><strong>Created At:</strong> {{ $result->created_at }}</p>
-    <p><strong>Updated At:</strong> {{ $result->updated_at }}</p>
+  
+                    　　<p><strong>伝票番号:</strong> {{ $result->repair_number }}</p>
+                        <p><strong>訪問予定日:</strong> {{ $result->scheduled_date }}</p>
+                        <p><strong>伝票状態:</strong> {{ $result->status }}</p>
+                        <p><strong>依頼様名:</strong> {{ $result->customer_name }}</p>
+                        <p><strong>電話番号:</strong> {{ $result->phone_number }}</p>
+                        <p><strong>住所:</strong> {{ $result->address }}</p>
+                        <p><strong>伝票メモ:</strong> {{ $result->memo }}</p>
+                        <p><strong>依頼内容:</strong> {{ $result->service_request }}</p>
+                        <p><strong>判定実施内容:</strong> {{ $result->repair_assessment_and_implementation }}</p>
+                        
+                        <p><strong>料金:</strong> {{ $result->amount }}</p>
+                        <p><strong>受付日:</strong> {{ $result->created_at }}</p>
+    
+    
+    
     @if(isset($result->worker_id))
                                  @php
                                  $assignedWorker = App\Models\Worker::find($result->worker_id);

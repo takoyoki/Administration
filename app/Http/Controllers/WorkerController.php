@@ -89,6 +89,8 @@ class WorkerController extends Controller
         'scheduled_date' => 'required|date|after_or_equal:'.$today, // 今日以降の日付であることを検証
         'status' => 'required',
         'memo' => 'nullable|max:400',
+        'service_request' => 'nullable|max:400',
+        'repair_assessment_and_implementation' => 'nullable|max:400',
         'amount' => 'required|numeric',
         
         ]);
@@ -97,7 +99,7 @@ class WorkerController extends Controller
         $serviceOrder = ServiceOrder::findOrFail($id);
 
         // フォームから送信されたデータを取得
-        $data = $request->only(['repair_number', 'scheduled_date', 'status', 'customer_name', 'phone_number', 'address', 'memo', 'amount']);
+        $data = $request->only(['repair_number', 'scheduled_date', 'status', 'customer_name', 'phone_number', 'address', 'memo','service_request','repair_assessment_and_implementation', 'amount']);
 
         // サービス注文を更新
         $serviceOrder->update($data);
@@ -123,6 +125,15 @@ class WorkerController extends Controller
         ]);
 
         $user->update($validatedData);
+        
+        // 作業員の場合、workersテーブルも更新
+    if ($user->role == 1) {
+        $worker = Worker::findOrFail($user->worker_id);
+        $worker->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+    }
 
         return redirect()->route('worker.edit', ['id' => $user->id])->with('success', 'ユーザー情報を更新しました');
     }

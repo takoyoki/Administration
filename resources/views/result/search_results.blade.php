@@ -27,10 +27,23 @@
                                     <li class="mb-3">
                                         <a href="{{ route('result.show', $result->id) }}" class="text-decoration-none">
                                             <div class="border p-3">
-                                                <p class="mb-1">Repair Number: {{ $result->repair_number }}</p>
-                                                <p class="mb-1">Customer Name: {{ $result->customer_name }}</p>
-                                                <p class="mb-1">Address: {{ $result->address }}</p>
-                                                <p class="mb-0">Scheduled Date: {{ $result->scheduled_date }}</p>
+                                                <p class="mb-1">伝票番号: {{ $result->repair_number }}</p>
+                                                <p class="mb-1">依頼様名: {{ $result->customer_name }}</p>
+                                                <p class="mb-1">住所: {{ $result->address }}</p>
+                                                <p class="mb-1">伝票状態: {{ $result->status }}</p>
+                                                <p class="mb-0">訪問予定日: {{ $result->scheduled_date }}</p>
+                                                
+                                                 <!-- 割り当てられた作業員の名前を表示 -->
+                        @if(isset($result->worker_id))
+                        @php
+                        $assignedWorker = App\Models\Worker::find($result->worker_id);
+                        @endphp
+                        @if($assignedWorker)
+                        <p><strong>Assigned Worker:</strong> {{ $assignedWorker->name }}</p>
+                        @else
+                        <p><strong>Assigned Worker:</strong> Unknown</p>
+                        @endif
+                        @endif
                                             </div>
                                         </a>
                                     </li>

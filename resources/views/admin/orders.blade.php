@@ -16,10 +16,21 @@
                             @foreach($orders as $order)
                                 <li class="mb-3 border-bottom pb-3">
                                     <a href="{{ route('result.show', $order->id) }}" class="text-decoration-none">
-                                        <p class="mb-1">Repair Number: {{ $order->repair_number }}</p>
-                                        <p class="mb-1">Customer Name: {{ $order->customer_name }}</p>
-                                        <p class="mb-1">Address: {{ $order->address }}</p>
-                                        <p class="mb-0">Scheduled Date: {{ $order->scheduled_date }}</p>
+                                        <p class="mb-1">伝票番号: {{ $order->repair_number }}</p>
+                                        <p class="mb-1">依頼様名: {{ $order->customer_name }}</p>
+                                        <p class="mb-1">住所: {{ $order->address }}</p>
+                                        <p class="mb-0">訪問予定日: {{ $order->scheduled_date }}</p>
+                                        <!-- 割り当てられた作業員の名前を表示 -->
+                                        @if(isset($order->worker_id))
+                                        @php
+                                        $assignedWorker = App\Models\Worker::find($order->worker_id);
+                                        @endphp
+                                        @if($assignedWorker)
+                                        <p><strong>Assigned Worker:</strong> {{ $assignedWorker->name }}</p>
+                                        @else
+                                        <p><strong>Assigned Worker:</strong> Unknown</p>
+                                        @endif
+                                        @endif
                                     </a>
                                 </li>
                             @endforeach

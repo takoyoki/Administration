@@ -27,7 +27,9 @@ class CalendarController extends Controller
             $view = 'worker.calendar';
         } else { // ユーザーが管理者の場合はすべての伝票を取得します。
              $worker_id = null;
-            $serviceOrders = ServiceOrder::whereDate('scheduled_date', $scheduled_date)->paginate(10);
+            $serviceOrders = ServiceOrder::whereDate('scheduled_date', $scheduled_date)
+            ->with('worker')
+            ->paginate(10);
             $view = 'admin.calendar';
         }
 

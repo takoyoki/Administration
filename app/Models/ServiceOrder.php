@@ -21,6 +21,8 @@ class ServiceOrder extends Model
         'phone_number',
         'address',
         'memo',
+        'service_request',
+        'repair_assessment_and_implementation',
         'amount',
         'worker_id',
     ];
