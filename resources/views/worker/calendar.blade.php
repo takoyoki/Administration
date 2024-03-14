@@ -22,10 +22,10 @@
                                 <a href="{{ route('worker_result_show', $serviceOrder->id) }}" class="text-decoration-none">
                                     <div class="card">
                                         <div class="card-body">
-                                            <p class="card-text">Repair Number: {{ $serviceOrder->repair_number }}</p>
-                                            <p class="card-text">Customer Name: {{ $serviceOrder->customer_name }}</p>
-                                            <p class="card-text">Address: {{ $serviceOrder->address }}</p>
-                                            <p class="card-text">Scheduled Date: {{ $serviceOrder->scheduled_date }}</p>
+                                            <p class="card-text">伝票番号: {{ $serviceOrder->repair_number }}</p>
+                                            <p class="card-text">依頼様名: {{ $serviceOrder->customer_name }}</p>
+                                            <p class="card-text">住所: {{ $serviceOrder->address }}</p>
+                                            <p class="card-text">訪問予定日: {{ $serviceOrder->scheduled_date }}</p>
                                         </div>
                                     </div>
                                 </a>

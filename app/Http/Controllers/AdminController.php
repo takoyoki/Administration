@@ -94,7 +94,10 @@ $eventCounts = ServiceOrder::where('scheduled_date', '>=', $startOfMonth)
                            ->orWhere('address', 'LIKE', "%{$query}%")
                            ->orWhere('memo', 'LIKE', "%{$query}%")
                            ->orWhere('amount', 'LIKE', "%{$query}%")
-                           ->paginate(3);
+                           ->orWhere('service_request', 'LIKE', "%{$query}%")
+                           ->orWhere('repair_assessment_and_implementation', 'LIKE', "%{$query}%")
+                           ->with('worker') // 割り当てられた作業員の情報を含める
+                           ->paginate(5);
 
         
         return view('result.search_results', compact('results'));
@@ -105,6 +108,7 @@ $eventCounts = ServiceOrder::where('scheduled_date', '>=', $startOfMonth)
     // 指定されたステータスに基づいて修理伝票を取得
     $orders = ServiceOrder::where('status', $status)
                                  ->orderBy('scheduled_date', 'asc')
+                                 ->with('worker')
                                  ->paginate(5);
 
     return view('admin.orders', compact('orders', 'status'));
@@ -123,9 +127,11 @@ $eventCounts = ServiceOrder::where('scheduled_date', '>=', $startOfMonth)
         'scheduled_date' => 'required|date|after_or_equal:'.$today, // 今日以降の日付であることを検証
         'status' => 'required',
         'customer_name' => 'required',
-        'phone_number' => 'required|numeric',
+        'phone_number' => 'required',
         'address' => 'required',
-        'memo' => 'nullable|max:400',
+        'memo' => 'nullable|max:400', 
+        'service_request' => 'nullable|max:400', 
+        'repair_assessment_and_implementation' => 'nullable|max:400', 
         'amount' => 'required|numeric',
     ]);
         
@@ -134,7 +140,9 @@ $eventCounts = ServiceOrder::where('scheduled_date', '>=', $startOfMonth)
         $serviceOrder = ServiceOrder::findOrFail($id);
 
         // フォームから送信されたデータを取得
-        $data = $request->only(['repair_number', 'scheduled_date', 'status', 'customer_name', 'phone_number', 'address', 'memo', 'amount']);
+        $data = $request->only(['repair_number', 'scheduled_date', 'status', 'customer_name', 'phone_number', 'address', 'memo', 'service_request', 'repair_assessment_and_implementation', 'amount']);
+
+
 
         // サービス注文を更新
         $serviceOrder->update($data);
@@ -209,8 +217,10 @@ public function create(Request $request)
     'phone_number' => 'required|numeric', // ここが数字のみを許可するルールです
     'address' => 'required',
     'memo' => 'nullable|max:400', // メモは400文字以内
+    'service_request' => 'nullable|max:400',
+    'repair_assessmen_ and_implementation' => 'nullable|max:400',
     'amount' => 'required|numeric', // ここも数字のみを許可するルールです
-    'worker_id' => 'required',
+    
 ]);
 
         // データベースに修理伝票を作成する
@@ -222,6 +232,8 @@ public function create(Request $request)
         $serviceOrder->phone_number = $request->input('phone_number');
         $serviceOrder->address = $request->input('address');
         $serviceOrder->memo = $request->input('memo');
+        $serviceOrder->service_request = $request->input('service_request');
+        $serviceOrder->repair_assessment_and_implementation = $request->input('repair_assessment_and_implementation');
         $serviceOrder->amount = $request->input('amount');
         $serviceOrder->worker_id = $request->input('worker_id');
         $serviceOrder->save();

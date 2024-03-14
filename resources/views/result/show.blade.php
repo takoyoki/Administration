@@ -15,16 +15,18 @@
 
                 <div class="card-body">
                     <div class="result-item">
-                        <p><strong>Repair Number:</strong> {{ $result->repair_number }}</p>
-                        <p><strong>Scheduled Date:</strong> {{ $result->scheduled_date }}</p>
-                        <p><strong>Status:</strong> {{ $result->status }}</p>
-                        <p><strong>Customer Name:</strong> {{ $result->customer_name }}</p>
-                        <p><strong>Phone Number:</strong> {{ $result->phone_number }}</p>
-                        <p><strong>Address:</strong> {{ $result->address }}</p>
-                        <p><strong>Memo:</strong> {{ $result->memo }}</p>
-                        <p><strong>Amount:</strong> {{ $result->amount }}</p>
-                        <p><strong>Created At:</strong> {{ $result->created_at }}</p>
-                        <p><strong>Updated At:</strong> {{ $result->updated_at }}</p>
+                        <p><strong>伝票番号:</strong> {{ $result->repair_number }}</p>
+                        <p><strong>訪問予定日:</strong> {{ $result->scheduled_date }}</p>
+                        <p><strong>伝票状態:</strong> {{ $result->status }}</p>
+                        <p><strong>依頼様名:</strong> {{ $result->customer_name }}</p>
+                        <p><strong>電話番号:</strong> {{ $result->phone_number }}</p>
+                        <p><strong>住所:</strong> {{ $result->address }}</p>
+                        <p><strong>伝票メモ:</strong> {{ $result->memo }}</p>
+                        <p><strong>依頼内容:</strong> {{ $result->service_request }}</p>
+                        <p><strong>判定実施内容:</strong> {{ $result->repair_assessment_and_implementation }}</p>
+                        <p><strong>料金:</strong> {{ $result->amount }}</p>
+                        <p><strong>受付日時:</strong> {{ $result->created_at }}</p>
+                       
 
                         <!-- 割り当てられた作業員の名前を表示 -->
                         @if(isset($result->worker_id))
@@ -40,20 +42,20 @@
 
                         <!-- Edit Button -->
                         @if(Auth::user()->role == 0) <!-- 管理者のみに表示 -->
-                        <button class="btn btn-primary edit-btn mb-2">Edit</button>
+                        <button class="btn btn-primary edit-btn mb-2">編集</button>
                         @endif
 
                         <!-- Edit Form -->
                         <form class="edit-form" action="{{ route('admin.update', ['id' => $result->id]) }}" method="POST" style="display: none;">
                             @csrf
                             <div class="form-group">
-                                <label for="scheduled_date">Scheduled Date:</label>
-                                <input type="text" class="form-control" id="scheduled_date" name="scheduled_date" value="{{ $result->scheduled_date }}">
+                                <label for="scheduled_date">訪問予定日:</label>
+                                <input type="text" class="form-control" id="scheduled_date" name="scheduled_date" value="{{ old('scheduled_date', $result->scheduled_date) }}">
                                 <p class="title__error" style="color:red">{{ $errors->first('scheduled_date') }}</p>
                             </div>
                             
                                           <div class="form-group">
-                                                <label for="status">Status:</label>
+                                                <label for="status">伝票状態:</label>
                                                        <select class="form-control" id="status" name="status">
                                                              <option value="修理完了" {{ $result->status == "修理完了" ? 'selected' : '' }}>修理完了</option>
                                                              <option value="見積待ち" {{ $result->status == "見積待ち" ? 'selected' : '' }}>見積待ち</option>
@@ -63,37 +65,49 @@
                                           </div>
 
                                           <div class="form-group">
-                                                <label for="customer_name">Customer Name:</label>
-                                                <input type="text" class="form-control" id="customer_name" name="customer_name" value="{{ $result->customer_name }}">
+                                                <label for="customer_name">依頼様名:</label>
+                                                <input type="text" class="form-control" id="customer_name" name="customer_name" value="{{ old('customer_name', $result->customer_name) }}">
                                                 <p class="title__error" style="color:red">{{ $errors->first('customer_name') }}</p>
                                           </div>
 
                                           <div class="form-group">
-                                                <label for="phone_number">Phone Number:</label>
-                                                <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ $result->phone_number }}">
-                                                <p class="title__error" style="color:red">{{ $errors->first('phone_numbe') }}</p>
+                                                <label for="phone_number">電話番号:</label>
+                                                <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ old('phone_number', $result->phone_number) }}">
+                                                <p class="title__error" style="color:red">{{ $errors->first('phone_number') }}</p>
                                           </div>
 
                                           <div class="form-group">
-                                                <label for="address">Address:</label>
-                                                <textarea class="form-control" id="address" name="address" rows="4">{{ $result->address }}</textarea>
+                                                <label for="address">住所:</label>
+                                                <textarea class="form-control" id="address" name="address" rows="4">{{ old('address', $result->address) }}</textarea>
                                                 <p class="title__error" style="color:red">{{ $errors->first('address') }}</p>
                                           </div>
 
                                           <div class="form-group">
-                                                <label for="memo">Memo:</label>
-                                                <textarea class="form-control" id="memo" name="memo" rows="4">{{ $result->memo }}</textarea>
+                                                <label for="memo">伝票メモ:</label>
+                                                <textarea class="form-control" id="memo" name="memo" rows="4">{{ old('memo',  $result->memo) }}</textarea>
                                                 <p class="title__error" style="color:red">{{ $errors->first('memo') }}</p>
+                                          </div>
+                                          
+                                           <div class="form-group">
+                                                <label for="service_request">依頼内容:</label>
+                                                <textarea class="form-control" id="service_request" name="service_request" rows="4">{{ old('service_request', $result->service_request) }}</textarea>
+                                                <p class="title__error" style="color:red">{{ $errors->first('service_request') }}</p>
+                                          </div>
+                                          
+                                          <div class="form-group">
+                                                <label for="repair_assessment_and_implementation">判定実施内容:</label>
+                                                <textarea class="form-control" id="repair_assessment_and_implementation" name="repair_assessment_and_implementation" rows="4">{{ old('repair_assessment_and_implementation',$result->repair_assessment_and_implementation) }}</textarea>
+                                                <p class="title__error" style="color:red">{{ $errors->first('repair_assessment_and_implementation') }}</p>
                                           </div>
 
                                           <div class="form-group">
-                                                <label for="amount">Amount:</label>
-                                                <input type="text" class="form-control" id="amount" name="amount" value="{{ $result->amount }}">
+                                                <label for="amount">料金:</label>
+                                                <input type="text" class="form-control" id="amount" name="amount" value="{{ old('amount', $result->amount) }}">
                                                 <p class="title__error" style="color:red">{{ $errors->first('amount') }}</p>
                                           </div>
                                      
 
-                            <button type="submit" class="btn btn-success">Save</button>
+                            <button type="submit" class="btn btn-success">保存</button>
                         </form>
 
                         <!-- 割り当てフォーム -->
@@ -107,7 +121,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-success">Assign to Worker</button>
+                            <button type="submit" class="btn btn-success">作業員割当</button>
                         </form>
                         @endif
 

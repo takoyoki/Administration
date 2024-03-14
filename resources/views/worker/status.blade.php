@@ -22,10 +22,10 @@
                                     <a href="{{ route('worker_result_show', $ticket->id) }}" class="text-decoration-none">
                                         <div class="card">
                                             <div class="card-body">
-                                                <p class="card-text">修理伝票番号: {{ $ticket->repair_number }}</p>
-                                                <p class="card-text">顧客名: {{ $ticket->customer_name }}</p>
+                                                <p class="card-text">伝票番号: {{ $ticket->repair_number }}</p>
+                                                <p class="card-text">依頼様名: {{ $ticket->customer_name }}</p>
                                                 <p class="card-text">住所: {{ $ticket->address }}</p>
-                                                <p class="card-text">予定日: {{ $ticket->scheduled_date }}</p>
+                                                <p class="card-text">訪問予定日: {{ $ticket->scheduled_date }}</p>
                                                 <!-- 他に表示したい情報があれば追加 -->
                                             </div>
                                         </div>
