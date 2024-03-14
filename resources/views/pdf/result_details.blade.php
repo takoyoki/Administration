@@ -30,18 +30,18 @@
 <body>
     <h1>Result Details</h1>
   
-                    　　<p><strong>伝票番号:</strong> {{ $result->repair_number }}</p>
-                        <p><strong>訪問予定日:</strong> {{ $result->scheduled_date }}</p>
-                        <p><strong>伝票状態:</strong> {{ $result->status }}</p>
-                        <p><strong>依頼様名:</strong> {{ $result->customer_name }}</p>
-                        <p><strong>電話番号:</strong> {{ $result->phone_number }}</p>
-                        <p><strong>住所:</strong> {{ $result->address }}</p>
-                        <p><strong>伝票メモ:</strong> {{ $result->memo }}</p>
-                        <p><strong>依頼内容:</strong> {{ $result->service_request }}</p>
-                        <p><strong>判定実施内容:</strong> {{ $result->repair_assessment_and_implementation }}</p>
+                    　　<p>伝票番号:{{ $result->repair_number }}</p>
+                        <p>訪問予定日:{{ $result->scheduled_date }}</p>
+                        <p>伝票状態:{{ $result->status }}</p>
+                        <p>依頼様名:{{ $result->customer_name }}</p>
+                        <p>電話番号:{{ $result->phone_number }}</p>
+                        <p>住所:{{ $result->address }}</p>
+                        <p>伝票メモ:{{ $result->memo }}</p>
+                        <p>依頼内容:{{ $result->service_request }}</p>
+                        <p>判定実施内容:{{ $result->repair_assessment_and_implementation }}</p>
                         
-                        <p><strong>料金:</strong> {{ $result->amount }}</p>
-                        <p><strong>受付日:</strong> {{ $result->created_at }}</p>
+                        <p>料金:{{ $result->amount }}</p>
+                        <p>受付日:{{ $result->created_at }}</p>
     
     
     
