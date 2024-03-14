@@ -8,8 +8,8 @@
     @include('components.serchform')
     <a href="#" onclick="goBack()" class="btn btn-primary mt-3" style="position: absolute; bottom: 0; right: 0;">戻る</a>
    </div>
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Result Details</div>
 
@@ -114,10 +114,12 @@
                         @if(Auth::user()->role == 0) <!-- 管理者のみに表示 -->
                         <form action="{{ route('admin.assign', ['id' => $result->id]) }}" method="POST">
                             @csrf
-                            <div class="form-group">
-                                <select class="form-control" name="worker_id">
-                                    @foreach($workers as $worker)
-                                    <option value="{{ $worker->id }}" {{ $result->worker_id==$worker->id ? 'selected' : '' }}>{{ $worker->name }}</option>
+                            　<div class="form-group">
+                                <label for="worker_id">作業員を選択:</label>
+                                <select class="form-control" name="worker_id" id="worker_id">
+                                     <option value=""> -- 作業員を選択してください -- </option> <!-- 空白の選択肢 -->
+                                    @foreach ($workers as $worker)
+                                        <option value="{{ $worker->id }}">{{ $worker->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
