@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('email',191)->collation('utf8_unicode_ci');
             $table->string('token',191)->collation('utf8_unicode_ci');
             $table->timestamp('created_at')->nullable();
+            
+            // プライマリキー制約を追加
+            $table->primary('email');
         });
     }
 
