@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreatePasswordResetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,13 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('password_resets', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('email',191)->collation('utf8_unicode_ci');
-            $table->string('token',191)->collation('utf8_unicode_ci');
+            $table->increments('id');
+            $table->string('email', 191)->collation('utf8_unicode_ci')->unique();
+            $table->string('token', 191)->collation('utf8_unicode_ci');
             $table->timestamp('created_at')->nullable();
-            
-            // プライマリキー制約を追加
-            $table->primary('email');
         });
     }
 
@@ -33,4 +30,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('password_resets');
     }
-};
+}
