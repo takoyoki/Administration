@@ -24,6 +24,9 @@ use App\Http\Controllers\CalendarController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/test', function () {
+    return view('welcome2');
+});
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
